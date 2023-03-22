@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from flask_restful import Api, Resource, reqparse
 from __init__ import db
 from model.subscriptions import Subscription
@@ -8,7 +8,8 @@ subscription_api = Api(subscription_bp)
 
 
 class SubscriptionAPI(Resource):
-    def get(self, id):
+    def get(self):
+        id = request.args.get("id")
         subscription = db.session.query(Subscription).get(id)
         if subscription:
             return subscription.to_dict()
